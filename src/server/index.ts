@@ -1,8 +1,8 @@
-const path = require('path');
-const express = require('express');
-const http = require('http');
-const socketIO = require('socket.io');
-const chokidar = require('chokidar');
+import * as path from 'path';
+import * as express from 'express';
+import * as http from 'http';
+import * as socketIO from 'socket.io';
+import * as chokidar from 'chokidar';
 
 const PORT = 3000;
 
@@ -10,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-const PUBLIC_PATH = path.join(__dirname, '..', 'public');
+const PUBLIC_PATH = path.join(__dirname, '../../dist/app');
 
 app.use(express.static(PUBLIC_PATH));
 
@@ -23,20 +23,15 @@ io.on('connection', (socket) => {
     persistent: true
   });
 
-  watcher.on('add', filename => {
+  watcher.on('add', (path: string) => {
     if (isReady) {
+      const filename = path.split("/").pop();
       socket.emit('filename', filename);
     }
   });
   watcher.on('ready', () => {
     isReady = true;
   });
-
-  // console.log('hey!');
-  // socket.emit('news', { hello: 'world' });
-  // socket.on('my other event', function (data) {
-  //   console.log(data);
-  // });
 });
 
 server.listen(PORT, () => {
