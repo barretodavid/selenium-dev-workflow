@@ -1,7 +1,17 @@
-# TIP Build Test
+# Selenium Dev Workflow
 
-To start the standalone selenium server:
+This is a development workflow based on Selenium to allow development not on localhost but on any website injecting the application on evey save.
+
+## Instructions
+
+Install all dependencies:
 
 ```
-$ java -jar -Dwebdriver.chrome.driver=./selenium/chromedriver ./selenium/selenium-server-standalone-3.0.1.jar
+$ yarn install
+```
+
+Start selenium, open browser, start dev server and start build process in watch mode:
+
+```
+$ yarn start
 ```
