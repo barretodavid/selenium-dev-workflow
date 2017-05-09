@@ -4,6 +4,7 @@ const webdriver = require('webdriverio');
 
 const SERVER_URL = 'http://localhost:8080';
 const PUBLIC_PATH = path.join(__dirname, '../dist');
+const INIT_URL = 'http://www.google.ca';
 
 const options = {
   desiredCapabilities: {
@@ -22,7 +23,8 @@ const options = {
 
 const browser = webdriver
   .remote(options)
-  .init();
+  .init()
+  .url(INIT_URL);
 
 let isReady = false;
 
@@ -35,7 +37,6 @@ watcher.on('add', reloadBrowser);
 watcher.on('change', reloadBrowser);
 
 function reloadBrowser(path) {
-  console.log(path);
   const filename = path.split("/").pop();
   browser
     .refresh()

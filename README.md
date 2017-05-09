@@ -10,7 +10,13 @@ Install all dependencies:
 $ yarn install
 ```
 
-Start selenium, open browser, start dev server and start build process in watch mode:
+Start Selenium
+
+```
+$ yarn selenium
+```
+
+When Selenium has started, run in another terminal:
 
 ```
 $ yarn start

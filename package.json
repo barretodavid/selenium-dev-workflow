@@ -5,15 +5,16 @@
   "author": "David Barreto <barretollano@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "postinstall": "yarn selenium:install",
+    "selenium:install": "selenium-standalone install",
+    "selenium:start": "selenium-standalone start",
+    "selenium": "yarn selenium:start",
     "serve": "nodemon --watch ./dist ./scripts/start-dev-server.js",
     "open": "node ./scripts/open-dev-browser.js",
-    "selenium": "java -jar -Dwebdriver.chrome.driver=./selenium/chromedriver ./selenium/selenium-server-standalone-3.0.1.jar",
     "clear": "rm -rf dist",
-    "build:dev": "yarn clear && NODE_ENV=development webpack --config webpack.config.js",
-    "build:prod": "yarn clear && NODE_ENV=production webpack --config webpack.config.js",
-    "build:watch": "yarn clear && NODE_ENV=development webpack --config webpack.config.js --watch",
-    "build": "yarn build:app:dev",
-    "start": "concurrently --kill-others \"yarn selenium\" \"yarn open\" \"yarn serve\" \"yarn build:watch\""
+    "build": "yarn clear && webpack",
+    "build:watch": "yarn clear && webpack --watch",
+    "start": "concurrently \"yarn open\" \"yarn serve\" \"yarn build:watch\""
   },
   "dependencies": {
     "chokidar": "^1.6.1"
@@ -25,6 +26,7 @@
     "concurrently": "^3.4.0",
     "express": "^4.15.2",
     "nodemon": "^1.11.0",
+    "selenium-standalone": "^6.4.1",
     "ts-loader": "^2.0.3",
     "typescript": "^2.3.2",
     "webdriverio": "^4.8.0",
