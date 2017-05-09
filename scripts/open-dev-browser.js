@@ -13,7 +13,8 @@ const options = {
       args: [
         'start-maximized',
         'disable-web-security',
-        'allow-running-insecure-content'
+        'allow-running-insecure-content',
+        'auto-open-devtools-for-tabs',
       ]
     }
   }
@@ -21,8 +22,7 @@ const options = {
 
 const browser = webdriver
   .remote(options)
-  .init()
-  .url('http://www.google.ca?id=1');
+  .init();
 
 let isReady = false;
 
@@ -31,12 +31,18 @@ const watcher = chokidar.watch(PUBLIC_PATH, {
   persistent: true
 });
 
-watcher.on('add', path => {
-  const filename = path.split("/").pop();
-  browser.execute(createScript(filename));
-});
+watcher.on('add', reloadBrowser);
+watcher.on('change', reloadBrowser);
 
-function createScript(filename) {
+function reloadBrowser(path) {
+  console.log(path);
+  const filename = path.split("/").pop();
+  browser
+    .refresh()
+    .execute(appendScript(filename));
+}
+
+function appendScript(filename) {
   return `
     const script = document.createElement('script');
     script.src = '${SERVER_URL}/${filename}';
